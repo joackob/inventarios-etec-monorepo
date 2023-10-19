@@ -1,0 +1,19 @@
+{
+  "name": "etec-inventarios",
+  "version": "1.0.0",
+  "description": "ERP para inventarios ETEC",
+  "main": "index.js",
+  "scripts": {
+    "cat-ignores": "node ./utils/cat-gitignores.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joackob/monorepo-etec-inventarios.git"
+  },
+  "author": "Escuela de Educación Técnica de Villa Lugano - UBA",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/joackob/monorepo-etec-inventarios/issues"
+  },
+  "homepage": "https://github.com/joackob/monorepo-etec-inventarios#readme"
+}
