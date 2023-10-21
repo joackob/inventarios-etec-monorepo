@@ -4,8 +4,8 @@
   "description": "ERP para inventarios ETEC",
   "main": "index.js",
   "scripts": {
-    "cat-ignores": "node ./utils/cat-gitignores.js",
-    "install-deps": "node ./utils/install-deps.js"
+    "cat-ignores": "node ./utils/cat-gitignores.mjs",
+    "install-deps": "node ./utils/install-deps.mjs"
   },
   "repository": {
     "type": "git",
