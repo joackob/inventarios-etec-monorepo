@@ -1,8 +1,8 @@
 import { execSync } from "child_process";
 
 const echo = (message) => {
-  execSync("echo ---------------------", { stdio: "inherit" });
-  execSync(`echo ${message}`, { stdio: "inherit" });
+  console.info("----------------------------------------");
+  console.info(message);
 };
 
 const exec = (command) => {
@@ -11,8 +11,8 @@ const exec = (command) => {
 
 echo("installing deps...");
 
-echo("install api deps");
-echo("cd api && pip install --user pipenv");
+echo("install api deps (please, use pipenv)");
+exec("cd api && pip install --user pipenv");
 exec("cd api && pipenv install");
 
 echo("install mobile deps");
