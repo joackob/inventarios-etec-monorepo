@@ -5,7 +5,8 @@
   "main": "index.js",
   "scripts": {
     "cat-ignores": "node ./utils/cat-gitignores.mjs",
-    "install-deps": "node ./utils/install-deps.mjs"
+    "install-deps": "node ./utils/install-deps.mjs",
+    "save-deps": "node ./utils/save-deps.mjs"
   },
   "repository": {
     "type": "git",
