@@ -1,9 +1,9 @@
 import axios from "axios";
 import { api } from "./api";
-import { AdminProps } from "../interfaces";
+import { AdminProps } from "../models";
 
 export const postAdmin = async (data: AdminProps) => {
-  const res = await axios.post(api.admin, data);
+  const res = await axios.post(api.admins, data);
   return {
     ...data,
     id: res.data.id,

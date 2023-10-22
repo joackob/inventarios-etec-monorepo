@@ -1,6 +1,6 @@
 import { Add } from "@mui/icons-material";
 import { Button } from "@mui/material";
-import { useAppDispatch } from "@/store/hooks";
+import { useAppDispatch } from "@/src/hooks";
 import { add } from "../thunks";
 
 const AddButton = () => {

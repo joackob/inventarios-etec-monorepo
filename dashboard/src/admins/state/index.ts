@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { Admin } from "../interfaces";
+import { Admin } from "../models";
 import { add, set } from "../thunks";
-import { StatusStateAdmins } from "../interfaces";
+import { StatusStateAdmins } from "../models";
 
 export type AdminsState = {
   values: Admin[];

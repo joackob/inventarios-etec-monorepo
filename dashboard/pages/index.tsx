@@ -1,15 +1,15 @@
 import type { NextPage } from "next";
-import { useAppDispatch } from "@/src/store/hooks";
-import AdminsTable from "@/src/admins/AdminsTable";
+import { useAppDispatch } from "@/src/hooks";
+import AdminsDashboard from "@/src/admins/AdminsDashboard";
 import { useEffect } from "react";
 import { set } from "@/src/admins/thunks";
 
-const Index: NextPage = (props) => {
+const Index: NextPage = () => {
   const dispatch = useAppDispatch();
   useEffect(() => {
     dispatch(set());
   });
-  return <AdminsTable />;
+  return <AdminsDashboard />;
 };
 
 export default Index;

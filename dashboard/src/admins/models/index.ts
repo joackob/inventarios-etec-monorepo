@@ -5,7 +5,7 @@ export type AdminProps = {
 };
 
 export type Admin = AdminProps & {
-  id: number;
+  id: string;
   url: string;
 };
 
