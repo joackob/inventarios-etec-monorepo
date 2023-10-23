@@ -6,7 +6,9 @@
   "scripts": {
     "cat-ignores": "node ./utils/cat-gitignores.mjs",
     "install-deps": "node ./utils/install-deps.mjs",
-    "save-deps": "node ./utils/save-deps.mjs"
+    "save-deps": "node ./utils/save-deps.mjs",
+    "api-dev": "cd api && flask --app flaskr run --debug",
+    "api-db": "cd api && flask --app flaskr init-db"
   },
   "repository": {
     "type": "git",
