@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-import { ItemInventory } from "../interface";
+import { ItemInventory } from "../models";
 import { setup, addOne, removeOne } from "../thunks";
 
 export enum StatusItemsState {
@@ -44,7 +44,7 @@ const itemsSlice = createSlice({
           values: items,
           status: StatusItemsState.online,
         };
-      }
+      },
     );
     builder.addCase(setup.rejected, (state) => {
       return {
@@ -66,7 +66,7 @@ const itemsSlice = createSlice({
           ...state,
           values: [item, ...state.values],
         };
-      }
+      },
     );
     builder.addCase(addOne.rejected, (state) => {
       return {
@@ -85,7 +85,7 @@ const itemsSlice = createSlice({
           ...state,
           values: state.values.filter((item) => item.id !== id),
         };
-      }
+      },
     );
   },
 });

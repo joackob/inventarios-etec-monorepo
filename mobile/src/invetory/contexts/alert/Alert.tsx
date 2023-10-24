@@ -1,10 +1,9 @@
-import { View, Text, TouchableOpacity } from "react-native";
 import React, { ReactNode } from "react";
-import { useAppDispatch, useAppSelector } from "../../src/store";
-import { Icon } from "@rneui/themed";
+import { useAppDispatch, useAppSelector } from "../../../hooks/";
 import tw from "twrnc";
-import { StatusItemsState } from "../../src/iteminventory/slice";
-import { closeAlert } from "../../src/iteminventory/slice";
+import { StatusItemsState } from "../../state";
+import { closeAlert } from "../../state";
+import { TouchableOpacity, Text } from "react-native";
 
 const colors = new Map<string, { dark: string; light: string }>([
   [

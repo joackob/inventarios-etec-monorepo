@@ -1,10 +1,11 @@
 import React from "react";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import DescriptionItemScreen from "../itemsinventory/descriptionitem/DescriptionItemScreen";
-import ListItemsScreen from "../itemsinventory/listitems/ListItemsScreen";
-import AddItemScreen from "../itemsinventory/additem/AddItemScreen";
-import { ItemInventory } from "../../src/iteminventory/interface";
+import DescriptionItemScreen from "../invetory/screens/description-item/DescriptionItemScreen";
+import ListItemsScreen from "../invetory/screens/list-items/ListItemsScreen";
+import AddItemScreen from "../invetory/screens/add-item/AddItemScreen";
+import { ItemInventory } from "../invetory/models";
 import Login from "../login/Login";
+
 export type RootStackParamList = {
   DescriptionItemScreen: ItemInventory;
   ListItemsScreen: undefined;

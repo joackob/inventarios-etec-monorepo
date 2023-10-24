@@ -8,10 +8,3 @@ export type Admin = AdminProps & {
   id: string;
   url: string;
 };
-
-export enum StatusStateAdmins {
-  loading,
-  offline,
-  online,
-  error,
-}

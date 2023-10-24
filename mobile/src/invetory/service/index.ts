@@ -1,6 +1,6 @@
 import axios from "axios";
-import { API_URI } from "../../api";
-import { ItemInventory, ItemInventoryProps } from "../interface";
+import { API_URI } from "../api";
+import { ItemInventory, ItemInventoryProps } from "../models";
 
 export const api = {
   items: `${API_URI}/api/entorno`,
@@ -16,7 +16,7 @@ export const getItems = async (): Promise<ItemInventory[]> => {
 };
 
 export const postItem = async (
-  item: ItemInventoryProps
+  item: ItemInventoryProps,
 ): Promise<ItemInventory> => {
   const res = await axios.post(api.items, item, {
     headers: header,
@@ -29,7 +29,7 @@ export const postItem = async (
 };
 
 export const deleteItem = async (
-  item: ItemInventory
+  item: ItemInventory,
 ): Promise<{ id: string; wasRemoved: boolean }> => {
   const res = await axios.delete(`${api.items}/${item.id}`);
   return {

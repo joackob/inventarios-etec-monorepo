@@ -1,7 +1,7 @@
 import { ScrollView, View } from "react-native";
 import React from "react";
 import tw from "twrnc";
-import { ItemInventory } from "../../../../src/iteminventory/interface";
+import { ItemInventory } from "../../../iteminventory/models";
 import ItemCard from "./ItemCard";
 
 const ItemsList = ({ items }: { items: ItemInventory[] }) => {

@@ -5,7 +5,7 @@ import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
 import { RootStackParamList } from "../../../navigator";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ItemInventory } from "../../../../src/iteminventory/interface";
+import { ItemInventory } from "../../../iteminventory/models";
 
 type ItemCardNavigationProps = NativeStackNavigationProp<
   RootStackParamList,

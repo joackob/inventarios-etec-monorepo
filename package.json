@@ -9,7 +9,9 @@
     "save-deps": "node ./utils/save-deps.mjs",
     "api-dev": "cd api && flask --app flaskr run --debug",
     "api-db": "cd api && flask --app flaskr init-db",
-    "dashboard-dev": "cd dashboard && npm run dev"
+    "dashboard-dev": "cd dashboard && npm run dev",
+    "mobile-dev": "cd mobile && npm run start",
+    "mobile-dev-android": "cd mobile && npm run android"
   },
   "repository": {
     "type": "git",

@@ -1,6 +1,5 @@
 import { configureStore } from "@reduxjs/toolkit";
-import { TypedUseSelectorHook, useDispatch, useSelector } from "react-redux";
-import { itemsReducer } from "../iteminventory/slice";
+import { itemsReducer } from "../invetory/state";
 
 export const store = configureStore({
   reducer: {
@@ -10,7 +9,3 @@ export const store = configureStore({
 
 export type StoreState = ReturnType<typeof store.getState>;
 export type StoreDispatch = typeof store.dispatch;
-
-//hooks
-export const useAppDispatch: () => StoreDispatch = useDispatch;
-export const useAppSelector: TypedUseSelectorHook<StoreState> = useSelector;

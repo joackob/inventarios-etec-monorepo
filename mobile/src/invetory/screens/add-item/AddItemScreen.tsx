@@ -1,13 +1,13 @@
 import { View, SafeAreaView, ActivityIndicator } from "react-native";
 import React, { useState } from "react";
 import tw from "twrnc";
-import { useTheme, Image, Button, Input, FAB } from "@rneui/themed";
-import { ItemInventoryProps } from "../../../src/iteminventory/interface";
-import { useAppDispatch } from "../../../src/store";
-import { addOne } from "../../../src/iteminventory/thunks";
+import { useTheme, Image, Input, FAB } from "@rneui/themed";
+import { ItemInventoryProps } from "../../models";
+import { useAppDispatch } from "../../../hooks";
+import { addOne } from "../../thunks";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../navigator";
+import { RootStackParamList } from "../../../navigator";
 
 type AddItemNavigatorProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -18,23 +18,15 @@ const AddItemScreen = () => {
   const dispatch = useAppDispatch();
   const nav = useNavigation<AddItemNavigatorProps>();
   const [data, setData] = useState<ItemInventoryProps>({
-    name: "",
-    description: "",
-    amount: 0,
+    nombre: "",
+    marca: "",
+    numero_de_serie: "",
   });
 
   const handleTextChange = (field: string) => (value: string) => {
     setData({
       ...data,
       [field]: value,
-    });
-  };
-
-  const handleAmountChange = (value: string) => {
-    const amount = Number(value);
-    setData({
-      ...data,
-      amount: isNaN(amount) ? 0 : amount,
     });
   };
 
@@ -66,14 +58,14 @@ const AddItemScreen = () => {
           />
           <Input
             onChangeText={handleTextChange("description")}
-            placeholder="Descripción"
+            placeholder="Marca"
             autoCapitalize="sentences"
             blurOnSubmit={false}
           />
           <Input
-            onChangeText={handleAmountChange}
-            placeholder="Cantidad actual"
-            keyboardType="numeric"
+            onChangeText={handleTextChange("numero_de_serie")}
+            placeholder="Numero de serie"
+            autoCapitalize="sentences"
             blurOnSubmit={false}
           />
           <FAB icon={{ name: "add", color: "white" }} onPress={handlePress} />

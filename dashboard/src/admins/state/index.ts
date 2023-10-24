@@ -1,7 +1,13 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 import { Admin } from "../models";
 import { add, set } from "../thunks";
-import { StatusStateAdmins } from "../models";
+
+export enum StatusStateAdmins {
+  loading,
+  offline,
+  online,
+  error,
+}
 
 export type AdminsState = {
   values: Admin[];

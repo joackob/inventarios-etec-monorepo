@@ -1,12 +1,12 @@
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import React from "react";
 import { FAB, useTheme } from "@rneui/themed";
 import tw from "twrnc";
-import { ItemInventory } from "../../../../src/iteminventory/interface";
-import { useAppDispatch } from "../../../../src/store";
-import { removeOne } from "../../../../src/iteminventory/thunks";
+import { ItemInventory } from "../../../models";
+import { useAppDispatch } from "../../../../hooks";
+import { removeOne } from "../../../thunks";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { RootStackParamList } from "../../../navigator";
+import { RootStackParamList } from "../../../../navigator";
 import { useNavigation } from "@react-navigation/native";
 
 type EditItemNavigationProps = NativeStackNavigationProp<

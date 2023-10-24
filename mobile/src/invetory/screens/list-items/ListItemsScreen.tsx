@@ -4,8 +4,8 @@ import { useTheme, Image, Input } from "@rneui/themed";
 import tw from "twrnc";
 import { ItemList, ButtonAdd } from "./components";
 import { SafeAreaView } from "react-native-safe-area-context";
-import { useAppDispatch, useAppSelector } from "../../../src/store";
-import { setup } from "../../../src/iteminventory/thunks";
+import { useAppDispatch, useAppSelector } from "../../../hooks";
+import { setup } from "../../thunks";
 
 const ListItemsScreen = () => {
   const { theme } = useTheme();
@@ -33,7 +33,7 @@ const ListItemsScreen = () => {
             containerStyle={tw`bg-[${theme.colors.white}]  pt-5 pb-0 px-10 rounded-xl`}
           />
           <ItemList
-            items={items.filter((item) => item.description.includes(search))}
+            items={items.filter((item) => item.nombre.includes(search))}
           />
         </View>
       </ScrollView>
