@@ -8,7 +8,8 @@
     "install-deps": "node ./utils/install-deps.mjs",
     "save-deps": "node ./utils/save-deps.mjs",
     "api-dev": "cd api && flask --app flaskr run --debug",
-    "api-db": "cd api && flask --app flaskr init-db"
+    "api-db": "cd api && flask --app flaskr init-db",
+    "dashboard-dev": "cd dashboard && npm run dev"
   },
   "repository": {
     "type": "git",
