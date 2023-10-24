@@ -8,7 +8,7 @@ import {
 import { useAppSelector } from "@/src/hooks";
 import { Alert, LinearProgress } from "@mui/material";
 import { Box } from "@mui/system";
-import { StatusStateAdmins } from "../models";
+import { StatusStateAdmins } from "../state";
 
 const columns: GridColDef[] = [
   {
