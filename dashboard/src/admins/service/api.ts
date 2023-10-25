@@ -1,3 +1,5 @@
+import { config } from "../../config";
+
 export const api = {
-  admins: `${process.env.NEXT_PUBLIC_API_URL}/administradores`,
+  admins: `${config.api_url}/administradores`,
 };
