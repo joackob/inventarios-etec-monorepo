@@ -1,13 +1,8 @@
 import React from "react";
 import { SafeAreaView } from "react-native-safe-area-context";
 import tw from "twrnc";
-import { ScrollView, View } from "react-native";
-import { Text } from "@rneui/base";
+import { ScrollView, Touchable, TouchableOpacity, View } from "react-native";
 import { Button } from "@rneui/base";
-import { Pressable } from "react-native";
-import { TextInput } from "react-native";
-import { TouchableOpacity } from "react-native";
-import { StyleSheet } from "react-native";
 import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigator";
@@ -33,11 +28,12 @@ const Login = () => {
           >
             Enviar
           </Button>
-          <Button style={tw`mt-5`}>crear cuenta</Button>
+
+          <TouchableOpacity style={tw`mt-20 t-blue-500 bg-transparent text-center `}>Crear cuenta</TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
-  );
+  ); 
 };
 
 export default Login;
