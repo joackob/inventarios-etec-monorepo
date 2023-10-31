@@ -20,7 +20,7 @@ def index():
         return jsonify(item=url_for('item.detail', id=id))
     elif request.method == 'GET':
         items = db.execute(
-            'SELECT id, nombre FROM items').fetchall()
+            'SELECT id, nombre, marca, numero_serie FROM items').fetchall()
         return jsonify(items=items)
 
 
@@ -28,14 +28,16 @@ def index():
 def detail(id):
     db = get_db()
     item = db.execute(
-        'SELECT id, nombre FROM items WHERE id = ?', (id,)).fetchone()
+        'SELECT id, nombre, marca, numero_serie FROM items WHERE id = ?', (id,)).fetchone()
     if item == None:
         abort(404,'No existe este item')
     if request.method == 'PUT':
         item = request.json['item']
         nombre = item['nombre']
+        marca = item["marca"]
+        numero_de_serie = item["numero_serie"]
         db.execute(
-            'UPDATE items SET nombre = ? WHERE id = ?', (nombre, id))
+            'UPDATE items SET nombre = ?, marca = ?, numero_serie = ? WHERE id = ?', (nombre,marca, numero_de_serie, id,))
         db.commit()
         return jsonify(item=url_for('item.detail', id=id))
     elif request.method == 'DELETE':
