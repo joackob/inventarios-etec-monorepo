@@ -1,6 +1,6 @@
 DROP TABLE IF EXISTS items_en_ubicacion;
 CREATE TABLE items_en_ubicacion (
-  "item_id" INTEGER,
+  "item_id" TEXT,
   "ubicacion_id" INTEGER,
   "cantidad" INTEGER,
   PRIMARY KEY (item_id, ubicacion_id),
@@ -10,7 +10,7 @@ CREATE TABLE items_en_ubicacion (
 
 DROP TABLE IF EXISTS items;
 CREATE TABLE items (
-	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"id"	TEXT PRIMARY KEY,
 	"nombre"	TEXT NOT NULL,
 	"marca" TEXT,
   "numero_serie" TEXT
@@ -227,30 +227,22 @@ INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES
    (SELECT id FROM tipos_ubicacion WHERE tipo = "depósito"));
 INSERT INTO depositos(nombre, ubicacion) VALUES ("principal-meca", last_insert_rowid());
 
--- ITEMS en la biblioteca
-INSERT INTO items(nombre, marca, numero_serie)  
-  VALUES ("monitor", "philips", "1235"),
-          ("monitor", "philips", "1236"),
-          ("teclado", "logitech", "1237"),
-          ("teclado", "logitech", "1238"),
-          ("mouse", "logitech", "1239"),
-          ("mouse", " logitech", "1224"),
-          ("computadora", "lenovo", "1214"),
-          ("computadora", "lenovo", "1294");
-
 -- ITEMS en la 101
-INSERT INTO items(nombre) 
-  VALUES ("mesa"),
-          ("pizarrón");
+INSERT INTO items(id, nombre, marca, numero_serie)  
+  VALUES ("e9480588-66ad-41b2-a5a6-3635b15eb833","monitor", "philips", "1235"),
+          ("d6aa3af9-ea89-4255-912f-6f8a8a9ab46c","monitor", "philips", "1236"),
+          ("c6df020c-491f-4bff-92f8-f50b111cb175","teclado", "logitech", NULL);
+
+
 
 INSERT INTO items_en_ubicacion(ubicacion_id, item_id, cantidad)
   VALUES ((SELECT ubicacion FROM entornos WHERE nombre = "101"),
-          (SELECT id FROM items WHERE nombre = "mesa"),
-          8);
-
-INSERT INTO items_en_ubicacion(ubicacion_id, item_id, cantidad)
-  VALUES ((SELECT ubicacion FROM entornos WHERE nombre = "101"),
-          (SELECT id FROM items WHERE nombre = "pizarrón"),
+          (SELECT id FROM items WHERE nombre = "monitor" AND numero_serie = "1235"),
           1);
+
+INSERT INTO items_en_ubicacion(ubicacion_id, item_id, cantidad)
+  VALUES ((SELECT ubicacion FROM entornos WHERE nombre = "101"),
+          (SELECT id FROM items WHERE nombre = "teclado"),
+          8);
 
 -- agregar algunos items en depositos

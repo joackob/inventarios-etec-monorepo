@@ -5,27 +5,23 @@ export const getItemsMock = (): ItemInventory[] => {
   return [
     {
       id: "1",
-      nombre: "Item 1",
-      marca: "Description of Item 1",
-      numero_serie: "fdfdfdfdfdfd",
+      nombre: "Entorno 101",
+      piso: 1,
     },
     {
       id: "2",
-      nombre: "Item 2",
-      marca: "Description of Item 2",
-      numero_serie: "fdfdfdfdfdfd",
+      nombre: "Entorno 102",
+      piso: 1,
     },
     {
       id: "3",
-      nombre: "Item 3",
-      marca: "Description of Item  3",
-      numero_serie: "fdfdfdfdfdfd",
+      nombre: "Entorno 103",
+      piso: 1,
     },
     {
       id: "4",
-      nombre: "Item 4",
-      marca: "Description of Item 4",
-      numero_serie: "fdfdfdfdfdfd",
+      nombre: "Entorno 104",
+      piso: 1,
     },
   ];
 };

@@ -7,6 +7,7 @@ import { useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
 import { RootStackParamList } from "../navigator";
 import { Input } from "@rneui/base";
+import { Text, useTheme } from "@rneui/themed";
 
 type AddItemNavigatorProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -15,6 +16,7 @@ type AddItemNavigatorProps = NativeStackNavigationProp<
 
 const Login = () => {
   const navigation = useNavigation<AddItemNavigatorProps>();
+  const { theme } = useTheme();
   return (
     <SafeAreaView style={tw`flex h-full`}>
       <ScrollView>
@@ -25,15 +27,20 @@ const Login = () => {
             onPress={() => {
               navigation.navigate("ListItemsScreen");
             }}
+            buttonStyle={{ backgroundColor: theme.colors.primary }}
           >
             Enviar
           </Button>
 
-          <TouchableOpacity style={tw`mt-20 t-blue-500 bg-transparent text-center `}>Crear cuenta</TouchableOpacity>
+          <TouchableOpacity style={tw`mt-10  text-center `}>
+            <Text style={tw`text-center text-blue-500 text-lg`}>
+              Crear cuenta
+            </Text>
+          </TouchableOpacity>
         </View>
       </ScrollView>
     </SafeAreaView>
-  ); 
+  );
 };
 
 export default Login;

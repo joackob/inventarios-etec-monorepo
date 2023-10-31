@@ -1,7 +1,6 @@
 export type ItemInventoryProps = {
   nombre: string;
-  marca: string;
-  numero_serie: string;
+  piso: number;
 };
 
 export type ItemInventory = ItemInventoryProps & {
