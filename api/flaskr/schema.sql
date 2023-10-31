@@ -1,32 +1,14 @@
-DROP TABLE IF EXISTS entornos;
+DROP TABLE IF EXISTS items_en_ubicacion;
+CREATE TABLE items_en_ubicacion (
+  "item_id" INTEGER,
+  "ubicacion_id" INTEGER,
+  "cantidad" INTEGER,
+  PRIMARY KEY (item_id, ubicacion_id),
+  FOREIGN KEY (item_id) REFERENCES items(id),
+  FOREIGN KEY (ubicacion_id) REFERENCES ubicaciones(id)
+);
+
 DROP TABLE IF EXISTS items;
-DROP TABLE IF EXISTS sectores;
-DROP TABLE IF EXISTS depositos;
-DROP TABLE IF EXISTS items_en_deposito;
-DROP TABLE IF EXISTS items_en_entorno;
-
-CREATE TABLE sectores (
-	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"nombre"	TEXT NOT NULL,
-  "piso" INTEGER NOT NULL,
-  UNIQUE ("nombre", "piso")
-);
-
-CREATE TABLE entornos (
-	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"nombre"	TEXT NOT NULL UNIQUE,
-	"sector"	INTEGER NOT NULL,
-
-  FOREIGN KEY (sector) REFERENCES sectores(id)
-);
-
-CREATE TABLE depositos (
-	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
-	"nombre"	TEXT NOT NULL UNIQUE, 
-	"sector"	INTEGER NOT NULL,
-  FOREIGN KEY (sector) REFERENCES sectores(id)
-);
-
 CREATE TABLE items (
 	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
 	"nombre"	TEXT NOT NULL,
@@ -34,69 +16,216 @@ CREATE TABLE items (
   "numero_serie" TEXT
 );
 
-CREATE TABLE items_en_entorno (
-  "item_id" INTEGER,
-  "entorno_id" INTEGER,
-  "cantidad" INTEGER,
-  PRIMARY KEY (item_id, entorno_id),
-  FOREIGN KEY (item_id) REFERENCES items(id),
-  FOREIGN KEY (entorno_id) REFERENCES entornos(id)
+DROP TABLE IF EXISTS entornos;
+CREATE TABLE entornos (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"nombre"	TEXT NOT NULL UNIQUE,
+	"ubicacion"	INTEGER NOT NULL,
+  FOREIGN KEY (ubicacion) REFERENCES ubicaciones(id)
 );
 
-CREATE TABLE items_en_deposito (
-  "item_id" INTEGER,
-  "deposito_id" INTEGER,
-  "cantidad" INTEGER,
-  PRIMARY KEY (item_id, deposito_id),
-  FOREIGN KEY (item_id) REFERENCES depositos(id),
-  FOREIGN KEY (deposito_id) REFERENCES depositos(id)
+DROP TABLE IF EXISTS depositos;
+CREATE TABLE depositos (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"nombre"	TEXT NOT NULL UNIQUE, 
+	"ubicacion"	INTEGER NOT NULL,
+  FOREIGN KEY (ubicacion) REFERENCES ubicaciones(id)
 );
 
+DROP TABLE IF EXISTS ubicaciones;
+CREATE TABLE ubicaciones (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"sector"	INTEGER NOT NULL,
+	"tipo_ubicacion"	INTEGER NOT NULL,
+  FOREIGN KEY (sector) REFERENCES sectores(id),
+  FOREIGN KEY (tipo_ubicacion) REFERENCES tipos_ubicacion(id)
+);
 
+DROP TABLE IF EXISTS tipos_ubicacion;
+CREATE TABLE tipos_ubicacion (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"tipo"	TEXT NOT NULL
+);
+
+DROP TABLE IF EXISTS sectores;
+CREATE TABLE sectores (
+	"id"	INTEGER PRIMARY KEY AUTOINCREMENT,
+	"nombre"	TEXT NOT NULL,
+  "piso" INTEGER NOT NULL,
+  UNIQUE ("nombre", "piso")
+);
+
+DROP VIEW IF EXISTS ubicaciones_con_tipo;
+CREATE VIEW ubicaciones_con_tipo AS 
+  SELECT u.id AS ubicacion_id, tu.tipo as ubicacion_tipo, 
+    u.sector AS sector_id, 
+    s.nombre AS sector_nombre, s.piso AS sector_piso 
+    FROM ubicaciones u JOIN tipos_ubicacion tu
+      ON u.tipo_ubicacion = tu.id
+      JOIN sectores s
+      ON s.id = u.sector;
+
+DROP VIEW IF EXISTS entornos_completos;
+CREATE VIEW entornos_completos AS 
+  SELECT e.id AS entorno_id, e.nombre AS entorno_nombre, 
+	u.ubicacion_id, u.ubicacion_tipo, 
+	u.sector_nombre, u.sector_piso 
+    FROM entornos e JOIN ubicaciones_con_tipo u 
+      ON e.ubicacion = u.ubicacion_id;
 
 INSERT INTO sectores(nombre, piso) VALUES ("biblioteca", 0), ("peine 1", 0), ("peine 1", 1),
         ("peine 2", 0), ("peine 2", 1), ("peine 3", 0), ("peine 3", 1),
         ("peine 2/3", 0), ("peine 2/3", 1);
-INSERT INTO entornos(nombre,sector) VALUES ("ttr", (SELECT id from sectores where nombre = "biblioteca"));
-INSERT INTO entornos(nombre,sector) VALUES ("101", (SELECT id from sectores where nombre = "peine 1" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("102", (SELECT id from sectores where nombre = "peine 1" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("103", (SELECT id from sectores where nombre = "peine 1" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("104", (SELECT id from sectores where nombre = "peine 1" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("105", (SELECT id from sectores where nombre = "peine 1" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("111", (SELECT id from sectores where nombre = "peine 1" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("112", (SELECT id from sectores where nombre = "peine 1" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("113", (SELECT id from sectores where nombre = "peine 1" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("114", (SELECT id from sectores where nombre = "peine 1" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("115", (SELECT id from sectores where nombre = "peine 1" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("ODS", (SELECT id from sectores where nombre = "peine 1" and piso = 1));
+INSERT INTO tipos_ubicacion(tipo) VALUES ("entorno"), ("depósito");
+
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "biblioteca"),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("ttr", last_insert_rowid());
+
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("101", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("102", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("103", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("104", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("105", last_insert_rowid());
+
+
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("111", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("112", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("113", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("114", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("115", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("ODS", last_insert_rowid());
 -- "ODS: oficina de soporte"
-INSERT INTO entornos(nombre,sector) VALUES ("201", (SELECT id from sectores where nombre = "peine 2" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("202", (SELECT id from sectores where nombre = "peine 2" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("203", (SELECT id from sectores where nombre = "peine 2" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("204", (SELECT id from sectores where nombre = "peine 2" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("205", (SELECT id from sectores where nombre = "peine 2" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("211", (SELECT id from sectores where nombre = "peine 2" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("212", (SELECT id from sectores where nombre = "peine 2" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("213", (SELECT id from sectores where nombre = "peine 2" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("214", (SELECT id from sectores where nombre = "peine 2" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("215", (SELECT id from sectores where nombre = "peine 2" and piso = 1));
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("201", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("202", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("203", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("204", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("205", last_insert_rowid());
 
-INSERT INTO entornos(nombre,sector) VALUES ("301", (SELECT id from sectores where nombre = "peine 3" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("302", (SELECT id from sectores where nombre = "peine 3" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("303", (SELECT id from sectores where nombre = "peine 3" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("304", (SELECT id from sectores where nombre = "peine 3" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("305", (SELECT id from sectores where nombre = "peine 3" and piso = 0));
-INSERT INTO entornos(nombre,sector) VALUES ("311", (SELECT id from sectores where nombre = "peine 3" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("312", (SELECT id from sectores where nombre = "peine 3" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("313", (SELECT id from sectores where nombre = "peine 3" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("314", (SELECT id from sectores where nombre = "peine 3" and piso = 1));
-INSERT INTO entornos(nombre,sector) VALUES ("315", (SELECT id from sectores where nombre = "peine 3" and piso = 1));
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("215", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("211", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("212", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("213", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("214", last_insert_rowid());
 
-INSERT INTO depositos(nombre, sector) VALUES ("auxiliar-ciclobasico", (SELECT id from sectores where nombre = "peine 1" and piso = 0));
-INSERT INTO depositos(nombre, sector) VALUES ("auxiliar-tic", (SELECT id from sectores where nombre = "peine 2" and piso = 0));
-INSERT INTO depositos(nombre, sector) VALUES ("auxiliar-meca", (SELECT id from sectores where nombre = "peine 3" and piso = 0));
-INSERT INTO depositos(nombre, sector) VALUES ("principal-tic", (SELECT id from sectores where nombre = "peine 2/3" and piso = 1));
-INSERT INTO depositos(nombre, sector) VALUES ("principal-meca", (SELECT id from sectores where nombre = "peine 2/3" and piso = 0));
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("301", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("302", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("303", last_insert_rowid());
+
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("311", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("312", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("313", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("314", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"));
+INSERT INTO entornos(nombre,ubicacion) VALUES ("315", last_insert_rowid());
+
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 1" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "depósito"));
+INSERT INTO depositos(nombre, ubicacion) VALUES ("auxiliar-ciclobasico", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "depósito"));
+INSERT INTO depositos(nombre, ubicacion) VALUES ("auxiliar-tic", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 3" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "depósito"));
+INSERT INTO depositos(nombre, ubicacion) VALUES ("auxiliar-meca", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2/3" AND piso = 1),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "depósito"));
+INSERT INTO depositos(nombre, ubicacion) VALUES ("principal-tic", last_insert_rowid());
+INSERT INTO ubicaciones(sector, tipo_ubicacion) VALUES 
+  ((SELECT id FROM sectores WHERE nombre = "peine 2/3" AND piso = 0),
+   (SELECT id FROM tipos_ubicacion WHERE tipo = "depósito"));
+INSERT INTO depositos(nombre, ubicacion) VALUES ("principal-meca", last_insert_rowid());
 
 -- ITEMS en la biblioteca
 INSERT INTO items(nombre, marca, numero_serie)  
@@ -113,5 +242,15 @@ INSERT INTO items(nombre, marca, numero_serie)
 INSERT INTO items(nombre) 
   VALUES ("mesa"),
           ("pizarrón");
+
+INSERT INTO items_en_ubicacion(ubicacion_id, item_id, cantidad)
+  VALUES ((SELECT ubicacion FROM entornos WHERE nombre = "101"),
+          (SELECT id FROM items WHERE nombre = "mesa"),
+          8);
+
+INSERT INTO items_en_ubicacion(ubicacion_id, item_id, cantidad)
+  VALUES ((SELECT ubicacion FROM entornos WHERE nombre = "101"),
+          (SELECT id FROM items WHERE nombre = "pizarrón"),
+          1);
 
 -- agregar algunos items en depositos
