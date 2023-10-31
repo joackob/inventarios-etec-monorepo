@@ -15,7 +15,7 @@ type DescriptionItemScreenRouteProps = RouteProp<
 const ItemScreen = () => {
   const { theme } = useTheme();
   const {
-    params: { nombre, marca, numero_de_serie, id },
+    params: { nombre, marca, numero_serie, id },
   } = useRoute<DescriptionItemScreenRouteProps>();
   return (
     <SafeAreaView
@@ -32,9 +32,9 @@ const ItemScreen = () => {
 
       <View style={tw`bg-[${theme.colors.white}] rounded-tl-xl rounded-tr-xl`}>
         <Buttons
-          name={nombre}
-          description={marca}
-          amount={numero_de_serie}
+          nombre={nombre}
+          marca={marca}
+          numero_serie={numero_serie}
           id={id}
         />
         <View style={tw`p-4`}>
