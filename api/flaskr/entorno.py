@@ -8,8 +8,9 @@ def index():
     db = get_db()
     if request.method == 'GET':
         entornos = db.execute(
-            """SELECT e.id, e.nombre, s.nombre AS peine, s.piso FROM entornos e 
-            JOIN sectores s ON s.id = e.sector ORDER BY peine, piso, e.nombre"""
+            """SELECT entorno_id, entorno_nombre, 
+            sector_nombre, sector_piso FROM entornos_completos 
+            ORDER BY sector_nombre, sector_piso, entorno_nombre"""
         ).fetchall()
         return jsonify(entornos=entornos)
     elif request.method == 'POST':
@@ -17,9 +18,14 @@ def index():
         nombre = entorno['nombre']
         sector = entorno['sector']
         db.execute(
-            """INSERT INTO entornos(nombre, sector) 
-                VALUES (?, ?)""" ,
-            (nombre, sector)
+            """INSERT INTO ubicaciones(sector, tipo_ubicacion) 
+                VALUES (?, (SELECT id FROM tipos_ubicacion WHERE tipo = "entorno"))""" ,
+            (sector,)
+        )
+        db.execute(
+            """INSERT INTO entornos(nombre, ubicacion) 
+                VALUES (?, last_insert_rowid())""" ,
+            (nombre, )
         )
         db.commit();
         ## TODO chequear errores
@@ -33,8 +39,9 @@ def detail(nombre):
 
     if request.method == 'GET':
         entorno = db.execute(
-    """SELECT e.id, e.nombre, s.nombre AS peine, s.piso FROM entornos e 
-            JOIN sectores s ON s.id = e.sector WHERE e.nombre = ?""" ,
+    """SELECT entorno_id, entorno_nombre, 
+            sector_nombre, sector_piso FROM entornos_completos 
+            WHERE entorno_nombre = ?""",
             (nombre,)
         ).fetchone()
         if entorno == None:
@@ -42,14 +49,20 @@ def detail(nombre):
         return jsonify(entorno=entorno)
     elif request.method == 'DELETE':
         entorno = db.execute(
-        """SELECT e.id FROM entornos e WHERE e.nombre = ?""" ,
+        """SELECT entorno_id FROM entornos_completos 
+            WHERE entorno_nombre = ?""" ,
             (nombre,)
         ).fetchone()
         if entorno == None:
             abort(404, 'Entorno inexistente')
         db.execute(
+            """DELETE FROM ubicaciones WHERE id = 
+                (SELECT ubicacion FROM entornos WHERE nombre = ?)""" ,
+            (nombre,)
+        )
+        db.execute(
             """DELETE FROM entornos WHERE nombre = ?""" ,
             (nombre,)
         )
         db.commit()
-        return jsonify(id=entorno['id'])
+        return jsonify(id=entorno['entorno_id'])
