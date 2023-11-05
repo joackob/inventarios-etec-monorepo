@@ -3,7 +3,7 @@ import React from "react";
 import Theme from "./src/theme";
 import { store } from "./src/store";
 import { Provider } from "react-redux";
-import Alert from "./src/invetory/contexts/alert/Alert";
+import Alert from "./src/inventario/contexts/alert/Alert";
 import RootStackNavigator from "./src/navigator";
 
 export default function App() {

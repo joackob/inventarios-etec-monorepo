@@ -6,22 +6,14 @@ export const api = {
 };
 
 export const getItems = async (): Promise<ItemInventory[]> => {
-  try {
-    console.log(api.items);
-    const res = await axios.get(api.items);
-    console.log(res);
-    return res.data["items"];
-  } catch (error) {
-    console.log(error);
-    throw error;
-  }
+  const res = await axios.get(api.items);
+  return res.data["items"];
 };
 
 export const postItem = async (
   item: ItemInventoryProps,
 ): Promise<ItemInventory> => {
   const res = await axios.post(api.items, item);
-
   return {
     ...item,
     id: res.data.id,

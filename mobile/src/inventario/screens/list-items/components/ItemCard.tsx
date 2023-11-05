@@ -3,9 +3,9 @@ import React from "react";
 import { Icon, useTheme, Badge, Divider } from "@rneui/themed";
 import tw from "twrnc";
 import { useNavigation } from "@react-navigation/native";
-import { RootStackParamList } from "../../../navigator";
+import { RootStackParamList } from "../../../../navigator/";
 import { NativeStackNavigationProp } from "@react-navigation/native-stack";
-import { ItemInventory } from "../../../iteminventory/models";
+import { ItemInventory } from "../../../models";
 
 type ItemCardNavigationProps = NativeStackNavigationProp<
   RootStackParamList,
@@ -27,21 +27,13 @@ const ItemCard = ({ item }: { item: ItemInventory }) => {
                 <Text
                   style={tw`font-bold mt-2 text-[${theme.colors.black}] text-2xl`}
                 >
-                  {item.name}
+                  {item.nombre}
                 </Text>
                 <Text
                   style={tw`font-bold mt-2 text-[${theme.colors.grey0}] text-sm`}
                 >
                   ID: {item.id}
                 </Text>
-              </View>
-              <View>
-                <Icon name="inventory" size={64} />
-                <Badge
-                  status="warning"
-                  value={item.amount}
-                  containerStyle={tw`absolute left-12`}
-                />
               </View>
             </View>
             <Divider style={tw`my-2`} />
@@ -50,7 +42,7 @@ const ItemCard = ({ item }: { item: ItemInventory }) => {
                 numberOfLines={1}
                 style={tw`font-bold text-[${theme.colors.black}]  `}
               >
-                Descripción: {item.description}
+                Marca: {item.marca}
               </Text>
             </View>
           </View>

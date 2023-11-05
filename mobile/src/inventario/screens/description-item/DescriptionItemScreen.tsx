@@ -49,18 +49,10 @@ const ItemScreen = () => {
                 ID: {id}
               </Text>
             </View>
-            {/* <View> */}
-            {/*   <Icon name="inventory" size={64} /> */}
-            {/*   <Badge */}
-            {/*     status="warning" */}
-            {/*     value={amount} */}
-            {/*     containerStyle={tw`absolute left-12`} */}
-            {/*   /> */}
-            {/* </View> */}
           </View>
           <Divider style={tw`my-2`} />
           <Text style={tw`font-bold text-[${theme.colors.black}]  `}>
-            Descripción: {marca}
+            Marca: {marca}
           </Text>
         </View>
       </View>
