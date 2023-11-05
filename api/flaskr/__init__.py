@@ -7,7 +7,8 @@ def create_app(test_config=None):
     # create and configure the app
     app = Flask(__name__, instance_relative_config=True)
 
-    CORS(app)
+    CORS(app, resources={r"/api/*": {"origins": "*"}})
+    # CORS(app) 
 
     app.config.from_mapping(
         SECRET_KEY='dev',

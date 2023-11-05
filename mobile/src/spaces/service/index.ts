@@ -6,10 +6,6 @@ export const api = {
   items: `${API_URI}/api/entorno`,
 };
 
-const header = {
-  "Content-Type": "application/json",
-};
-
 export const getItems = async (): Promise<ItemInventory[]> => {
   const res = await axios.get(api.items);
   return res.data.items;
@@ -18,9 +14,7 @@ export const getItems = async (): Promise<ItemInventory[]> => {
 export const postItem = async (
   item: ItemInventoryProps,
 ): Promise<ItemInventory> => {
-  const res = await axios.post(api.items, item, {
-    headers: header,
-  });
+  const res = await axios.post(api.items, item);
 
   return {
     ...item,

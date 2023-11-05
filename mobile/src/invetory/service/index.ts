@@ -1,24 +1,14 @@
 import axios from "axios";
 import { API_URI } from "../api";
 import { ItemInventory, ItemInventoryProps } from "../models";
-const config = {
-  headers: {
-    "Content-Type": "application/json",
-    "Access-Control-Allow-Origin": "*",
-  },
-};
 export const api = {
   items: `${API_URI}/api/items/`,
-};
-
-const header = {
-  "Content-Type": "application/json",
 };
 
 export const getItems = async (): Promise<ItemInventory[]> => {
   try {
     console.log(api.items);
-    const res = await axios.get(api.items, config);
+    const res = await axios.get(api.items);
     console.log(res);
     return res.data["items"];
   } catch (error) {
@@ -28,11 +18,9 @@ export const getItems = async (): Promise<ItemInventory[]> => {
 };
 
 export const postItem = async (
-  item: ItemInventoryProps
+  item: ItemInventoryProps,
 ): Promise<ItemInventory> => {
-  const res = await axios.post(api.items, item, {
-    headers: header,
-  });
+  const res = await axios.post(api.items, item);
 
   return {
     ...item,
@@ -41,7 +29,7 @@ export const postItem = async (
 };
 
 export const deleteItem = async (
-  item: ItemInventory
+  item: ItemInventory,
 ): Promise<{ id: string; wasRemoved: boolean }> => {
   const res = await axios.delete(`${api.items}/${item.id}`);
   return {

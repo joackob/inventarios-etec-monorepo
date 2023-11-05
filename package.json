@@ -7,7 +7,7 @@
     "cat-ignores": "node ./utils/cat-gitignores.mjs",
     "install-deps": "node ./utils/install-deps.mjs",
     "save-deps": "node ./utils/save-deps.mjs",
-    "api-dev": "cd api && flask --app flaskr run --debug",
+    "api-dev": "cd api && flask --app flaskr run --debug --host=192.168.0.15",
     "api-db": "cd api && flask --app flaskr init-db",
     "dashboard-dev": "cd dashboard && npm run dev",
     "mobile-dev": "cd mobile && npm run start",
