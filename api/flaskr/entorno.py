@@ -46,6 +46,14 @@ def detail(nombre):
         ).fetchone()
         if entorno == None:
             abort(404, 'Entorno inexistente')
+        items = db.execute("""
+                           SELECT id, marca, nombre, numero_serie FROM items i JOIN items_en_ubicacion iu 
+                           ON i.id = iu.item_id WHERE iu.ubicacion_id = ?; 
+                           """
+                           , (entorno["entorno_id"],)
+        ).fetchall()
+        entorno["items"] = items
+
         return jsonify(entorno=entorno)
     elif request.method == 'DELETE':
         entorno = db.execute(
