@@ -1,1 +1,3 @@
-export const API_URI = "http://192.168.0.15:5000";
+import { config } from "../../../config";
+
+export const API_URI = config["api-uri"];

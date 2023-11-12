@@ -6,33 +6,35 @@ import {
   postItemMock,
 } from "../service/service-mock";
 import { deleteItem, getItems, postItem } from "../service/";
-import { NODE_ENV } from "../../config";
+import { config } from "../../../config";
 
 const setupItems = createAsyncThunk("set/items", async () => await getItems());
 
 const addOneItem = createAsyncThunk(
   "post/item",
-  async (item: ItemInventoryProps) => await postItem(item)
+  async (item: ItemInventoryProps) => await postItem(item),
 );
 
 const removeOneItem = createAsyncThunk(
   "delete/item",
-  async (item: ItemInventory) => await deleteItem(item)
+  async (item: ItemInventory) => await deleteItem(item),
 );
 
 const setupMock = createAsyncThunk("set/items/mock", () => getItemsMock());
 
 const addOneMock = createAsyncThunk(
   "post/item/mock",
-  (item: ItemInventoryProps) => postItemMock(item)
+  (item: ItemInventoryProps) => postItemMock(item),
 );
 
 const removeOneMock = createAsyncThunk(
   "delete/item/mock",
-  (item: ItemInventory) => deleteItemMock(item)
+  (item: ItemInventory) => deleteItemMock(item),
 );
 
-export const setup = NODE_ENV === "development" ? setupMock : setupItems;
-export const addOne = NODE_ENV === "development" ? addOneMock : addOneItem;
+export const setup =
+  config["environment"] === "development" ? setupMock : setupItems;
+export const addOne =
+  config["environment"] === "development" ? addOneMock : addOneItem;
 export const removeOne =
-  NODE_ENV === "development" ? removeOneMock : removeOneItem;
+  config["environment"] === "development" ? removeOneMock : removeOneItem;

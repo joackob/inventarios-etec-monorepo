@@ -1,13 +1,20 @@
 import axios from "axios";
 import { API_URI } from "../api";
 import { ItemInventory, ItemInventoryProps } from "../models";
-export const api = {
+const api = {
   items: `${API_URI}/api/items/`,
 };
 
 export const getItems = async (): Promise<ItemInventory[]> => {
-  const res = await axios.get(api.items);
-  return res.data["items"];
+  try {
+    console.log(api.items);
+
+    const res = await axios.get(api.items);
+    return res.data["items"];
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
 };
 
 export const postItem = async (
