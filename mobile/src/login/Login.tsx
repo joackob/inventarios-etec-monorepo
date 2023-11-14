@@ -11,7 +11,7 @@ import { Text, useTheme } from "@rneui/themed";
 
 type AddItemNavigatorProps = NativeStackNavigationProp<
   RootStackParamList,
-  "ListItemsScreen"
+  "NavBarScreen"
 >;
 
 const Login = () => {
@@ -25,7 +25,7 @@ const Login = () => {
           <Input placeholder="Contraseña" editable multiline style={tw`w-64`} />
           <Button
             onPress={() => {
-              navigation.navigate("ListItemsScreen");
+              navigation.navigate("NavBarScreen");
             }}
             buttonStyle={{ backgroundColor: theme.colors.primary }}
           >
