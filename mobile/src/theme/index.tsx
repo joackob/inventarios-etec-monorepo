@@ -1,6 +1,13 @@
 import React, { ReactNode } from "react";
 import { ThemeProvider, createTheme } from "@rneui/themed";
 
+/* CSS HEX */
+// --space-blue: #1F2554ff;
+// --jordy-blue: #91BDE1ff;
+// --black-olive: #2C281Aff;
+// --harvest-gold: #F7AC14ff;
+// --navajo-white: #FCDAA3ff;
+
 const celeste = "#dbf2f5";
 const naranja = "#fc5b01";
 const amarillo = "#fcb834";

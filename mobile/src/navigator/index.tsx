@@ -24,7 +24,11 @@ const RootStackNavigator = () => {
         <RootStack.Screen name="LoginScreen" component={Login} />
       </RootStack.Group>
       <RootStack.Group>
-        <RootStack.Screen name="NavBarScreen" component={NavBarScreen} />
+        <RootStack.Screen
+          name="NavBarScreen"
+          component={NavBarScreen}
+          options={{ headerShown: false }}
+        />
       </RootStack.Group>
       <RootStack.Group>
         <RootStack.Screen name="ListItemsScreen" component={ListItemsScreen} />

@@ -1,16 +1,51 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
-
+import { Icon } from "@rneui/themed";
 const Tab = createBottomTabNavigator();
 
 const NavBar = () => {
   return (
     <Tab.Navigator>
-      <Tab.Screen name="Espacios" component={EspaciosMock} />
-      <Tab.Screen name="Buscador" component={BuscadorMock} />
-      <Tab.Screen name="Historial" component={HistorialMock} />
-      <Tab.Screen name="Agregador" component={AgregadorMock} />
-      <Tab.Screen name="Configuracion" component={ConfiguracionMock} />
+      <Tab.Screen
+        name="Espacios"
+        component={EspaciosMock}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => <Icon name="home" />,
+        }}
+      />
+      <Tab.Screen
+        name="Buscador"
+        component={BuscadorMock}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => <Icon name="search" />,
+        }}
+      />
+      <Tab.Screen
+        name="Historial"
+        component={HistorialMock}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => <Icon name="history" />,
+        }}
+      />
+      <Tab.Screen
+        name="Agregador"
+        component={AgregadorMock}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => <Icon name="add-circle" />,
+        }}
+      />
+      <Tab.Screen
+        name="Configuración"
+        component={ConfiguracionMock}
+        options={{
+          tabBarLabel: () => null,
+          tabBarIcon: () => <Icon name="settings" />,
+        }}
+      />
     </Tab.Navigator>
   );
 };
