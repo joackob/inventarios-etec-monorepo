@@ -8,22 +8,15 @@ import { ThemeProvider, createTheme } from "@rneui/themed";
 // --harvest-gold: #F7AC14ff;
 // --navajo-white: #FCDAA3ff;
 
-const celeste = "#dbf2f5";
-const naranja = "#fc5b01";
-const amarillo = "#fcb834";
-const negro = "#375a64";
-const gris = "#a9bfc1";
-const blanco = "#fff";
-
 const theme = createTheme({
   components: {},
   lightColors: {
-    primary: naranja,
-    secondary: amarillo,
-    grey0: gris,
-    black: negro,
-    white: blanco,
-    background: celeste,
+    primary: "#64748b",
+    secondary: "#64748b",
+    grey0: "#64748b",
+    black: "#020617ff",
+    white: "#f8fafcff",
+    background: "#f8fafcff",
   },
 });
 

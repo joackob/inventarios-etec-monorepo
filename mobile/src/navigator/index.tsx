@@ -21,7 +21,11 @@ const RootStackNavigator = () => {
   return (
     <RootStack.Navigator screenOptions={{ headerShown: true }}>
       <RootStack.Group>
-        <RootStack.Screen name="LoginScreen" component={Login} />
+        <RootStack.Screen
+          name="LoginScreen"
+          component={Login}
+          options={{ headerShown: false }}
+        />
       </RootStack.Group>
       <RootStack.Group>
         <RootStack.Screen

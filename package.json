@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "cat-ignores": "node ./utils/cat-gitignores.mjs",
-    "install-deps": "node ./utils/install-deps.mjs",
+    "install": "node ./utils/install-deps.mjs",
     "save-deps": "node ./utils/save-deps.mjs",
     "api-dev": "node ./utils/config-run-api.mjs",
     "api-db": "cd api && flask --app flaskr init-db",

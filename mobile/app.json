@@ -1,7 +1,7 @@
 {
   "expo": {
-    "name": "stock-rn-tw-template",
-    "slug": "stock-rn-tw-template",
+    "name": "etec-inventario-app",
+    "slug": "etec-inventario-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
@@ -9,11 +9,12 @@
     "splash": {
       "image": "./assets/splash.png",
       "resizeMode": "contain",
-      "backgroundColor": "#dbf2f5"
+      "backgroundColor": "#020617"
     },
-    "primaryColor": "#dbf2f5",
+    "primaryColor": "#64748b",
     "androidStatusBar": {
-      "backgroundColor": "#dbf2f5"
+      "backgroundColor": "#020617",
+      "barStyle": "light-content"
     },
     "updates": {
       "fallbackToCacheTimeout": 0
@@ -25,7 +26,7 @@
     "android": {
       "adaptiveIcon": {
         "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#FFFFFF"
+        "backgroundColor": "#020617"
       }
     },
     "web": {
