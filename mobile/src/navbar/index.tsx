@@ -1,14 +1,15 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
 import { Icon } from "@rneui/themed";
+import ListEntornosScreen from "../entornos/screens/list-entornos/ListEntornosScreen";
 const Tab = createBottomTabNavigator();
 
 const NavBar = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen
-        name="Espacios"
-        component={EspaciosMock}
+        name="Entornos"
+        component={ListEntornosScreen}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: () => <Icon name="home" />,

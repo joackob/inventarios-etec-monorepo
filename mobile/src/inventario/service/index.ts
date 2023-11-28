@@ -1,9 +1,6 @@
 import axios from "axios";
-import { API_URI } from "../api";
 import { ItemInventory, ItemInventoryProps } from "../models";
-const api = {
-  items: `${API_URI}/api/items`,
-};
+import { api } from "../api";
 
 export const getItems = async (): Promise<ItemInventory[]> => {
   const res = await axios.get(api.items);
@@ -11,7 +8,7 @@ export const getItems = async (): Promise<ItemInventory[]> => {
 };
 
 export const postItem = async (
-  item: ItemInventoryProps
+  item: ItemInventoryProps,
 ): Promise<ItemInventory> => {
   const res = await axios.post(api.items, item);
   return {
@@ -21,7 +18,7 @@ export const postItem = async (
 };
 
 export const deleteItem = async (
-  item: ItemInventory
+  item: ItemInventory,
 ): Promise<{ id: string; wasRemoved: boolean }> => {
   const res = await axios.delete(`${api.items}/${item.id}`);
   return {
