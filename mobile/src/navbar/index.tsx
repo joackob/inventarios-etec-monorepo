@@ -2,6 +2,7 @@ import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Text, View } from "react-native";
 import { Icon } from "@rneui/themed";
 import ListEntornosScreen from "../entornos/screens/list-entornos/ListEntornosScreen";
+import Buscador from '../buscador/Buscador'
 const Tab = createBottomTabNavigator();
 
 const NavBar = () => {
@@ -17,7 +18,7 @@ const NavBar = () => {
       />
       <Tab.Screen
         name="Buscador"
-        component={BuscadorMock}
+        component={Buscador}
         options={{
           tabBarLabel: () => null,
           tabBarIcon: () => <Icon name="search" />,
